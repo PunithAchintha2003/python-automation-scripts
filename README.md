@@ -1,4 +1,4 @@
-# 🐍 Python Automation Toolkit
+# 🐍 Python Automation Scripts
 
 > A collection of practical Python automation and system administration tools designed to build real-world scripting, monitoring, logging, file automation, and API integration skills.
 
