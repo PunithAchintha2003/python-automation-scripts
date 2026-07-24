@@ -1,6 +1,7 @@
 import requests
 import time
 import logging
+from pathlib import Path
 from datetime import datetime
 
 
@@ -10,8 +11,31 @@ from datetime import datetime
 
 API_URL = "https://www.google.com"
 
-REPORT_FILE = "health_report.txt"
-LOG_FILE = "health_check.log"
+
+# -----------------------------------
+# Output Directories
+# -----------------------------------
+
+LOG_DIR = Path("output/logs")
+REPORT_DIR = Path("output/reports")
+
+LOG_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+REPORT_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+
+# -----------------------------------
+# Output File Paths
+# -----------------------------------
+
+LOG_FILE = LOG_DIR / "health_check.log"
+REPORT_FILE = REPORT_DIR / "health_report.txt"
 
 
 # -----------------------------------
@@ -43,7 +67,9 @@ def check_api_health(url):
 
         end_time = time.time()
 
-        response_time = end_time - start_time
+        response_time = (
+            end_time - start_time
+        )
 
         status_code = response.status_code
 
@@ -54,7 +80,8 @@ def check_api_health(url):
             logging.info(
                 f"API is healthy - URL: {url} - "
                 f"Status Code: {status_code} - "
-                f"Response Time: {response_time:.2f} seconds"
+                f"Response Time: "
+                f"{response_time:.2f} seconds"
             )
 
         else:
@@ -102,7 +129,8 @@ def check_api_health(url):
     except requests.exceptions.RequestException as error:
 
         logging.error(
-            f"API request failed - URL: {url} - Error: {error}"
+            f"API request failed - URL: {url} - "
+            f"Error: {error}"
         )
 
         return {
@@ -159,9 +187,9 @@ Health Status:
 # -----------------------------------
 
 def save_report(report):
-    """Save health report to a text file."""
+    """Save health report to the output directory."""
 
-    with open(REPORT_FILE, "w") as file:
+    with REPORT_FILE.open("w") as file:
         file.write(report)
 
 
@@ -175,22 +203,31 @@ def main():
         "API health check started."
     )
 
-    print("Starting API health check...")
+    print(
+        "Starting API health check..."
+    )
 
-    result = check_api_health(API_URL)
+    result = check_api_health(
+        API_URL
+    )
 
-    report = generate_report(result)
+    report = generate_report(
+        result
+    )
 
     print(report)
 
-    save_report(report)
+    save_report(
+        report
+    )
 
     logging.info(
         "Health report saved successfully."
     )
 
     print(
-        f"Health report saved to: {REPORT_FILE}"
+        f"Health report saved to: "
+        f"{REPORT_FILE}"
     )
 
 

@@ -5,18 +5,24 @@ from datetime import datetime
 
 
 # -----------------------------------
-# Configuration
+# Directory Configuration
 # -----------------------------------
 
-SOURCE_DIR = Path("source_data")
-BACKUP_DIR = Path("backups")
+SOURCE_DIR = Path("data/source_data")
+BACKUP_DIR = Path("output/backups")
 
 
 # -----------------------------------
 # Logging Configuration
 # -----------------------------------
 
+LOG_DIR = Path("output/logs")
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+LOG_FILE = LOG_DIR / "backup.log"
+
 logging.basicConfig(
+    filename=LOG_FILE,
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -27,10 +33,14 @@ logging.basicConfig(
 # -----------------------------------
 
 def create_sample_source():
-    """Create a sample source directory for testing."""
+    """Create sample source data for testing."""
 
     if not SOURCE_DIR.exists():
-        SOURCE_DIR.mkdir()
+
+        SOURCE_DIR.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
         sample_file = SOURCE_DIR / "example.txt"
 
@@ -38,7 +48,9 @@ def create_sample_source():
             "This is a sample file for the backup script.\n"
         )
 
-        logging.info("Sample source directory created.")
+        logging.info(
+            f"Sample source directory created: {SOURCE_DIR}"
+        )
 
 
 # -----------------------------------
@@ -48,33 +60,50 @@ def create_sample_source():
 def create_backup_directory():
     """Create a timestamped backup directory."""
 
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    timestamp = datetime.now().strftime(
+        "%Y-%m-%d_%H-%M-%S"
+    )
 
-    backup_path = BACKUP_DIR / f"backup_{timestamp}"
+    backup_path = (
+        BACKUP_DIR /
+        f"backup_{timestamp}"
+    )
 
-    backup_path.mkdir(parents=True, exist_ok=True)
+    backup_path.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
-    logging.info(f"Backup directory created: {backup_path}")
+    logging.info(
+        f"Backup directory created: {backup_path}"
+    )
 
     return backup_path
 
 
 # -----------------------------------
-# Copy Files and Folders
+# Create Backup
 # -----------------------------------
 
 def create_backup(source, destination):
-    """Copy source files and folders to the backup directory."""
+    """Copy source files and folders to backup destination."""
 
     try:
 
         if not source.exists():
-            logging.error(f"Source directory does not exist: {source}")
+
+            logging.error(
+                f"Source directory does not exist: {source}"
+            )
+
             return False
 
         for item in source.iterdir():
 
-            destination_path = destination / item.name
+            destination_path = (
+                destination /
+                item.name
+            )
 
             if item.is_dir():
 
@@ -116,21 +145,29 @@ def create_backup(source, destination):
 
 def main():
 
-    logging.info("Backup process started.")
+    logging.info(
+        "Backup process started."
+    )
+
+    print(
+        "Starting backup process..."
+    )
 
     try:
 
         # Create sample source directory
         create_sample_source()
 
-        # Create main backups directory
+        # Create main backup directory
         BACKUP_DIR.mkdir(
             parents=True,
             exist_ok=True
         )
 
         # Create timestamped backup directory
-        backup_path = create_backup_directory()
+        backup_path = (
+            create_backup_directory()
+        )
 
         # Create backup
         success = create_backup(
@@ -146,11 +183,20 @@ def main():
 
             print()
             print("=" * 50)
-            print("       BACKUP COMPLETED SUCCESSFULLY")
+            print(
+                "       BACKUP COMPLETED SUCCESSFULLY"
+            )
             print("=" * 50)
             print()
-            print(f"Source: {SOURCE_DIR}")
-            print(f"Backup: {backup_path}")
+            print(
+                f"Source: {SOURCE_DIR}"
+            )
+            print(
+                f"Backup: {backup_path}"
+            )
+            print(
+                f"Log: {LOG_FILE}"
+            )
             print()
 
         else:
