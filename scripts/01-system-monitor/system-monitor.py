@@ -1,6 +1,26 @@
 import psutil
 import logging
+from pathlib import Path
 from datetime import datetime
+
+
+# -----------------------------
+# Output Directories
+# -----------------------------
+
+LOG_DIR = Path("output/logs")
+REPORT_DIR = Path("output/reports")
+
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# -----------------------------
+# Output File Paths
+# -----------------------------
+
+LOG_FILE = LOG_DIR / "system_monitor.log"
+REPORT_FILE = REPORT_DIR / "system_report.txt"
 
 
 # -----------------------------
@@ -8,7 +28,7 @@ from datetime import datetime
 # -----------------------------
 
 logging.basicConfig(
-    filename="system_monitor.log",
+    filename=LOG_FILE,
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -43,7 +63,9 @@ def get_system_info():
 def generate_report(system_info):
     """Generate a formatted system report."""
 
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    current_time = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
 
     report = f"""
 ========================================
@@ -88,7 +110,7 @@ Free Disk Space: {system_info["disk_free"] / (1024 ** 3):.2f} GB
 def save_report(report):
     """Save system report to a text file."""
 
-    with open("system_report.txt", "w") as file:
+    with REPORT_FILE.open("w") as file:
         file.write(report)
 
 
@@ -101,6 +123,7 @@ def main():
     logging.info("System monitoring started.")
 
     try:
+
         system_info = get_system_info()
 
         report = generate_report(system_info)
@@ -109,12 +132,23 @@ def main():
 
         save_report(report)
 
-        logging.info("System report generated successfully.")
-        logging.info("System report saved to system_report.txt")
+        logging.info(
+            "System report generated successfully."
+        )
+
+        logging.info(
+            f"System report saved to {REPORT_FILE}"
+        )
 
     except Exception as error:
-        logging.error(f"System monitoring failed: {error}")
-        print(f"Error: {error}")
+
+        logging.error(
+            f"System monitoring failed: {error}"
+        )
+
+        print(
+            f"Error: {error}"
+        )
 
 
 if __name__ == "__main__":

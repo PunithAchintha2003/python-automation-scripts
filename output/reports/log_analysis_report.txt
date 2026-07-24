@@ -1,25 +1,24 @@
 
 ========================================
-          API HEALTH CHECK REPORT
+          LOG ANALYSIS REPORT
 ========================================
 
-Checked At:
-2026-07-21 17:12:42
+Log File:
+data/sample.log
 
 ----------------------------------------
-API INFORMATION
+SUMMARY
 ----------------------------------------
 
-URL:
-https://www.google.com
+Total Log Entries: 14
 
-Status Code:
-200
+INFO Messages:
+8
 
-Response Time:
-0.26656413078308105 seconds
+WARNING Messages:
+3
 
-Health Status:
-Healthy
+ERROR Messages:
+3
 
 ========================================

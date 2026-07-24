@@ -1,0 +1,38 @@
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Python environment
+*.egg-info/
+
+# Local environment
+.env
+.env.*
+
+# Generated output
+output/
+
+# Local backup data
+backups/
+
+# Documentation
+*.md

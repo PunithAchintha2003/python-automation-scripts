@@ -3,11 +3,21 @@ from collections import Counter
 
 
 # -----------------------------
-# Configuration
+# Directories
 # -----------------------------
 
-LOG_FILE = Path("sample.log")
-REPORT_FILE = Path("report.txt")
+DATA_DIR = Path("data")
+REPORT_DIR = Path("output/reports")
+
+REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# -----------------------------
+# File Paths
+# -----------------------------
+
+LOG_FILE = DATA_DIR / "sample.log"
+REPORT_FILE = REPORT_DIR / "log_analysis_report.txt"
 
 
 # -----------------------------
@@ -18,11 +28,16 @@ def read_log_file(log_file):
     """Read the log file and return all log lines."""
 
     try:
+
         with log_file.open("r") as file:
             return file.readlines()
 
     except FileNotFoundError:
-        print(f"Error: Log file '{log_file}' not found.")
+
+        print(
+            f"Error: Log file '{log_file}' not found."
+        )
+
         return []
 
 
@@ -38,12 +53,15 @@ def analyze_logs(log_lines):
     for line in log_lines:
 
         if "INFO" in line:
+
             log_levels.append("INFO")
 
         elif "WARNING" in line:
+
             log_levels.append("WARNING")
 
         elif "ERROR" in line:
+
             log_levels.append("ERROR")
 
     return Counter(log_levels)
@@ -109,18 +127,28 @@ def main():
     log_lines = read_log_file(LOG_FILE)
 
     if not log_lines:
+
         print("No log entries found.")
+
         return
 
     counts = analyze_logs(log_lines)
 
-    report = generate_report(LOG_FILE, counts)
+    report = generate_report(
+        LOG_FILE,
+        counts
+    )
 
     print(report)
 
-    save_report(report, REPORT_FILE)
+    save_report(
+        report,
+        REPORT_FILE
+    )
 
-    print(f"Report saved to: {REPORT_FILE}")
+    print(
+        f"Report saved to: {REPORT_FILE}"
+    )
 
 
 if __name__ == "__main__":

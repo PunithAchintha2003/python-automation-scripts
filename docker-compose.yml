@@ -1,0 +1,47 @@
+services:
+
+  system-monitor:
+    build:
+      context: .
+    container_name: system-monitor
+    command: python scripts/01-system-monitor/system-monitor.py
+    volumes:
+      - system-monitor-output:/app/output
+
+  log-analyzer:
+    build:
+      context: .
+    container_name: log-analyzer
+    command: python scripts/02-log-analyzer/log-analyzer.py
+    volumes:
+      - log-analyzer-output:/app/output
+
+  backup-script:
+    build:
+      context: .
+    container_name: backup-script
+    command: python scripts/03-backup-script/backup-script.py
+    volumes:
+      - backup-data:/app/output/backups
+      - backup-logs:/app/output/logs
+
+  api-health-check:
+    build:
+      context: .
+    container_name: api-health-check
+    command: python scripts/04-api-health-check/api-health-check.py
+    volumes:
+      - api-health-output:/app/output
+
+
+volumes:
+
+  system-monitor-output:
+
+  log-analyzer-output:
+
+  backup-data:
+
+  backup-logs:
+
+  api-health-output:
