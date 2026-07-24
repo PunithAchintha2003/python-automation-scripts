@@ -1,526 +1,397 @@
 # 🐍 Python Automation Scripts
 
-> A collection of practical Python automation and system administration tools designed to build real-world scripting, monitoring, logging, file automation, and API integration skills.
+> A production-oriented collection of Python automation utilities for system monitoring, log analysis, automated backups, and API health monitoring, containerized with Docker and orchestrated using Docker Compose.
 
-![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-Orchestration-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Published-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ---
 
-## 📌 Overview
+## Table of Contents
 
-This repository contains a collection of practical Python automation projects focused on **system monitoring, log analysis, file and folder backups, and API health monitoring**.
-
-The goal of this repository is to develop strong foundations in:
-
-* 🐍 Python scripting
-* ⚙️ System automation
-* 🖥️ System monitoring
-* 📊 Log analysis
-* 💾 Backup automation
-* 🌐 API monitoring
-* 📝 Application logging
-* 🛡️ Error handling
-* 📁 File system operations
-* 🔧 DevOps and infrastructure automation concepts
-
-These projects are designed as hands-on learning exercises while building a foundation for **AI Infrastructure Engineering, MLOps, DevOps, and Cloud Engineering**.
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Local Setup](#local-setup)
+- [Run Individual Scripts](#run-individual-scripts)
+- [Docker](#docker)
+- [Docker Compose](#docker-compose)
+- [Docker Hub](#docker-hub)
+- [Project Status](#project-status)
+- [Key Skills Demonstrated](#key-skills-demonstrated)
+- [Engineering Focus](#engineering-focus)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [Author](#author)
+- [License](#license)
 
 ---
 
-## 🗂️ Project Structure
+## Overview
+
+This project demonstrates practical Python automation and infrastructure scripting through four independent utilities:
+
+- **System Monitor** — Monitors CPU, memory, and disk utilization.
+- **Log Analyzer** — Processes application logs and generates summary reports.
+- **Backup Script** — Creates timestamped backups of files and directories.
+- **API Health Check** — Monitors service availability, HTTP status codes, and response times.
+
+The tools can be executed locally or deployed as independent Docker containers using Docker Compose, with persistent output managed through Docker volumes.
+
+---
+
+## Architecture
+
+```text
+                    Python Automation Scripts
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+       System Monitor    Log Analyzer    Backup Script
+             │                │                │
+             └────────────────┼────────────────┘
+                              │
+                              ▼
+                     API Health Check
+                              │
+                              ▼
+                    Docker Containerization
+                              │
+                              ▼
+                    Docker Compose Services
+                              │
+                              ▼
+                     Persistent Volumes
+```
+
+---
+
+## Tech Stack
+
+### Programming
+- Python 3.12+
+
+### Python Libraries
+- `psutil`
+- `requests`
+- `pathlib`
+- `shutil`
+- `datetime`
+- `logging`
+- `collections`
+
+### DevOps & Infrastructure
+- Docker
+- Docker Compose
+- Docker Volumes
+- Docker Hub
+
+### Development Tools
+- Git
+- GitHub
+- pyenv
+- Python Virtual Environment
+
+---
+
+## Features
+
+- CPU, memory, and disk resource monitoring.
+- Automated log analysis and reporting.
+- Timestamped file and directory backups.
+- API availability and health monitoring.
+- HTTP response-time measurement.
+- Structured application and operational logging.
+- Exception and error handling.
+- Automated file system operations.
+- Docker containerization.
+- Multi-container Docker Compose orchestration.
+- Persistent Docker volume management.
+- Docker Hub image publishing.
+
+---
+
+## Project Structure
 
 ```text
 python-automation-scripts/
 │
+├── data/
+│   ├── sample.log
+│   └── source_data/
+│
+├── output/
+│   ├── backups/
+│   ├── logs/
+│   └── reports/
+│
 ├── scripts/
-│   │
 │   ├── 01-system-monitor/
-│   │   ├── system-monitor.py
-│   │   ├── system_report.txt
-│   │   ├── system_monitor.log
-│   │   └── README.md
+│   │   └── system-monitor.py
 │   │
 │   ├── 02-log-analyzer/
-│   │   ├── log-analyzer.py
-│   │   ├── sample.log
-│   │   ├── report.txt
-│   │   └── README.md
+│   │   └── log-analyzer.py
 │   │
 │   ├── 03-backup-script/
-│   │   ├── backup-script.py
-│   │   ├── backups/
-│   │   └── README.md
+│   │   └── backup-script.py
 │   │
 │   └── 04-api-health-check/
-│       ├── api-health-check.py
-│       ├── health_report.txt
-│       ├── health_check.log
-│       └── README.md
+│       └── api-health-check.py
 │
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
-# 🚀 Projects
+## Local Setup
 
-## 1️⃣ System Monitor
+### Prerequisites
+- Python 3.12+
+- pip
+- Git
 
-📂 `01-system-monitor/`
-
-A Python-based system monitoring tool that collects information about system resource usage and generates an automated report.
-
-### ✨ Features
-
-* 🖥️ CPU usage monitoring
-* 🧠 Memory usage monitoring
-* 💽 Disk usage monitoring
-* 📊 Automated system report generation
-* 📄 Save reports to a text file
-* 📝 Application logging
-* ⚠️ Error handling
-
-### 🛠️ Technologies
-
-* Python
-* `psutil`
-* `datetime`
-* `logging`
-
-### 🎯 Key Concepts
-
-* System monitoring
-* Resource utilization
-* File handling
-* Python logging
-* Exception handling
-
----
-
-## 2️⃣ Log Analyzer
-
-📂 `02-log-analyzer/`
-
-A Python-based log analysis tool that reads log files and generates a summary of different log levels.
-
-### ✨ Features
-
-* 📖 Read log files
-* ℹ️ Count `INFO` messages
-* ⚠️ Count `WARNING` messages
-* ❌ Count `ERROR` messages
-* 📊 Generate summary reports
-* 📄 Save analysis results to a file
-
-### 🛠️ Technologies
-
-* Python
-* `pathlib`
-* `collections.Counter`
-
-### 🎯 Key Concepts
-
-* File processing
-* Text parsing
-* Log analysis
-* Data aggregation
-* Python standard library
-
----
-
-## 3️⃣ Backup Script
-
-📂 `03-backup-script/`
-
-A Python automation script that creates timestamped backups of files and directories.
-
-### ✨ Features
-
-* 📁 Copy files
-* 📂 Copy directories
-* 💾 Create backup directories
-* 🕒 Generate timestamped backup folders
-* 📝 Log backup operations
-* ⚠️ Handle backup errors
-* 🔄 Support multiple backup versions
-
-### 🛠️ Technologies
-
-* Python
-* `shutil`
-* `os`
-* `pathlib`
-* `datetime`
-* `logging`
-
-### 🎯 Key Concepts
-
-* File system automation
-* Backup workflows
-* Directory management
-* Timestamp generation
-* Logging and error handling
-
----
-
-## 4️⃣ API Health Check
-
-📂 `04-api-health-check/`
-
-A Python-based monitoring tool that checks the availability and health of APIs or web services.
-
-### ✨ Features
-
-* 🌐 Send HTTP GET requests
-* 🔢 Check HTTP status codes
-* ⏱️ Measure response time
-* 💚 Detect healthy services
-* 🔴 Detect unhealthy services
-* ⏳ Handle request timeouts
-* 🔌 Handle connection failures
-* 📄 Generate health reports
-* 📝 Log API failures
-
-### 🛠️ Technologies
-
-* Python
-* `requests`
-* `time`
-* `datetime`
-* `logging`
-
-### 🎯 Key Concepts
-
-* REST API communication
-* HTTP status codes
-* Service health monitoring
-* Network error handling
-* Response time monitoring
-* Application logging
-
----
-
-# 🧰 Technologies & Tools
-
-### Programming Language
-
-![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=flat-square\&logo=python\&logoColor=white)
-
-### Python Libraries
-
-* `psutil`
-* `requests`
-* `pathlib`
-* `shutil`
-* `os`
-* `datetime`
-* `logging`
-* `collections`
-
-### Development Tools
-
-* 💻 macOS
-* 🐍 Python 3.12+
-* 🔀 Git
-* 🐙 GitHub
-* 📝 VS Code
-* 🛠️ pyenv
-* 📦 Python Virtual Environments
-
----
-
-# ⚙️ Getting Started
-
-## 📋 Prerequisites
-
-Make sure you have the following installed:
-
-* Python 3.12+
-* Git
-* pip
-
-Check your Python version:
-
-```bash
-python --version
-```
-
-Or:
-
-```bash
-python3 --version
-```
-
----
-
-## 📥 Clone the Repository
-
+### Clone the Repository
 ```bash
 git clone <your-repository-url>
-```
-
-Navigate to the project:
-
-```bash
 cd python-automation-scripts
 ```
 
----
-
-# 🐍 Python Environment Setup
-
-This repository uses Python virtual environments to isolate project dependencies.
-
-Create a virtual environment:
-
+### Create Virtual Environment
 ```bash
 python -m venv .venv
 ```
 
-Activate the environment on macOS/Linux:
+### Activate the Environment
 
+#### macOS/Linux
 ```bash
 source .venv/bin/activate
 ```
 
-Upgrade pip:
-
+#### Windows
 ```bash
-python -m pip install --upgrade pip
+.venv\Scripts\activate
 ```
 
----
-
-# 📦 Install Dependencies
-
-Some projects use third-party Python libraries.
-
-Install `psutil` for the System Monitor:
-
+### Install Dependencies
 ```bash
-pip install psutil
+pip install -r requirements.txt
 ```
 
-Install `requests` for the API Health Check:
+---
 
+## Run Individual Scripts
+
+### System Monitor
 ```bash
-pip install requests
+python scripts/01-system-monitor/system-monitor.py
 ```
 
-Or install both:
-
+### Log Analyzer
 ```bash
-pip install psutil requests
+python scripts/02-log-analyzer/log-analyzer.py
 ```
 
----
-
-# ▶️ Running the Projects
-
-## 🖥️ System Monitor
-
+### Backup Script
 ```bash
-cd 01-system-monitor
-python system-monitor.py
+python scripts/03-backup-script/backup-script.py
 ```
 
----
-
-## 📊 Log Analyzer
-
+### API Health Check
 ```bash
-cd 02-log-analyzer
-python log-analyzer.py
+python scripts/04-api-health-check/api-health-check.py
 ```
 
 ---
 
-## 💾 Backup Script
+## Docker
 
+### Build the Image
 ```bash
-cd 03-backup-script
-python backup-script.py
+docker build -t python-automation-scripts .
 ```
 
----
-
-## 🌐 API Health Check
-
+### Run the Container
 ```bash
-cd 04-api-health-check
-python api-health-check.py
+docker run --rm python-automation-scripts
 ```
 
 ---
 
-# 📈 Learning Progress
+## Docker Compose
 
-| Project             | Focus Area                  | Status      |
-| ------------------- | --------------------------- | ----------- |
-| 🖥️ System Monitor  | System Monitoring & Logging | ✅ Completed |
-| 📊 Log Analyzer     | Log Processing & Analysis   | ✅ Completed |
-| 💾 Backup Script    | File & Directory Automation | ✅ Completed |
-| 🌐 API Health Check | API & Service Monitoring    | ✅ Completed |
+The project includes four independent services:
 
----
+| Service | Responsibility |
+|---|---|
+| `system-monitor` | System resource monitoring |
+| `log-analyzer` | Log processing and reporting |
+| `backup-script` | Automated file and directory backups |
+| `api-health-check` | API availability and response monitoring |
 
-# 🎓 Skills Demonstrated
+### Build All Services
+```bash
+docker compose build
+```
 
-By completing these projects, this repository demonstrates practical experience with:
+### Start Services
+```bash
+docker compose up
+```
 
-### 🐍 Python
+### Run in Detached Mode
+```bash
+docker compose up -d
+```
 
-* Functions
-* Dictionaries
-* Lists
-* Exception handling
-* File handling
-* Modules and packages
-* Standard library usage
+### Check Service Status
+```bash
+docker compose ps
+```
 
-### ⚙️ Automation
+### View Service Logs
+```bash
+docker compose logs
+```
 
-* System resource monitoring
-* File and directory automation
-* Automated backups
-* API health monitoring
+### Stop Services
+```bash
+docker compose down
+```
 
-### 📝 Logging & Monitoring
-
-* Application logging
-* Error logging
-* System monitoring
-* Service health checks
-* Response time monitoring
-
-### 📁 File Systems
-
-* Reading and writing files
-* Directory management
-* File copying
-* Folder copying
-* Path manipulation
-
-### 🌐 APIs
-
-* HTTP GET requests
-* HTTP status codes
-* API availability checks
-* Timeout handling
-* Connection error handling
+The services use Docker volumes to persist generated reports, logs, and backup data outside the container lifecycle.
 
 ---
 
-# 🔮 Future Roadmap
+## Docker Hub
 
-The repository will continue to evolve with more advanced automation and infrastructure projects.
+The Docker image is published to Docker Hub:
 
-### 🔹 Python Automation
+**achintha2003/python-automation-scripts**
 
-* [ ] Add command-line interfaces using `argparse`
-* [ ] Add configuration files
-* [ ] Add environment variable support
-* [ ] Improve error handling
-* [ ] Add unit tests with `pytest`
-* [ ] Add type hints
-* [ ] Add code formatting with `Black`
-* [ ] Add linting with `Ruff`
+### Pull the Image
+```bash
+docker pull achintha2003/python-automation-scripts:latest
+```
 
-### 🔹 DevOps & Infrastructure
-
-* [ ] Dockerize automation tools
-* [ ] Add Docker Compose projects
-* [ ] Add CI/CD with GitHub Actions
-* [ ] Add automated testing pipelines
-* [ ] Add Linux system administration scripts
-* [ ] Add process monitoring
-* [ ] Add network monitoring
-
-### 🔹 Cloud & MLOps
-
-* [ ] AWS automation scripts
-* [ ] Azure automation scripts
-* [ ] Cloud infrastructure monitoring
-* [ ] Infrastructure as Code with Terraform
-* [ ] Kubernetes automation
-* [ ] MLOps pipeline automation
-
----
-
-# 🗺️ Learning Roadmap
-
-```text
-Python Fundamentals
-        │
-        ▼
-Python Automation
-        │
-        ▼
-Linux & System Administration
-        │
-        ▼
-Git & GitHub
-        │
-        ▼
-Docker & Containers
-        │
-        ▼
-CI/CD & GitHub Actions
-        │
-        ▼
-Cloud Engineering
-        │
-        ▼
-Infrastructure as Code
-        │
-        ▼
-Kubernetes
-        │
-        ▼
-MLOps & AI Infrastructure
+### Run the Published Image
+```bash
+docker run --rm achintha2003/python-automation-scripts:latest
 ```
 
 ---
 
-# 🤝 Contributing
+## Project Status
 
-This repository is primarily a personal learning and portfolio project.
-
-However, suggestions and improvements are welcome.
-
-If you have an idea:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Commit your changes
-5. Open a Pull Request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
+| Component | Status |
+|---|---|
+| System Monitoring | ✅ Completed |
+| Log Analysis | ✅ Completed |
+| Automated Backups | ✅ Completed |
+| API Health Monitoring | ✅ Completed |
+| Python Automation | ✅ Completed |
+| Docker Containerization | ✅ Completed |
+| Docker Compose Orchestration | ✅ Completed |
+| Persistent Docker Volumes | ✅ Completed |
+| Docker Hub Publishing | ✅ Completed |
 
 ---
 
-# 👨‍💻 Author
+## Key Skills Demonstrated
+
+This project demonstrates practical experience in:
+
+- Python automation and scripting.
+- Linux-oriented system operations.
+- System resource monitoring.
+- Application and operational logging.
+- Log processing and analysis.
+- File system automation.
+- Automated backup workflows.
+- HTTP API monitoring.
+- Network error handling.
+- Exception handling.
+- Docker image creation and containerization.
+- Multi-service Docker Compose orchestration.
+- Persistent container data management.
+- Docker Hub image publishing.
+
+---
+
+## Engineering Focus
+
+This project provides practical foundations relevant to:
+
+**DevOps Engineering • MLOps Engineering • Cloud Engineering • AI Infrastructure Engineering • Platform Engineering**
+
+---
+
+## Troubleshooting
+
+### Module not found error
+Make sure the virtual environment is activated and dependencies are installed:
+```bash
+pip install -r requirements.txt
+```
+
+### Docker build fails
+Check that Docker is running and that your `Dockerfile` exists in the project root:
+```bash
+docker build -t python-automation-scripts .
+```
+
+### Docker Compose services exit immediately
+Inspect logs for the failed service:
+```bash
+docker compose logs
+```
+
+### Permission issues on Linux/macOS
+If needed, make the script executable or run with proper permissions:
+```bash
+chmod +x scripts/01-system-monitor/system-monitor.py
+```
+
+---
+
+## Contributing
+
+Contributions are welcome. If you want to improve the scripts, Docker setup, or documentation:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Submit a pull request.
+
+---
+
+## Author
 
 **Punith Achintha**
 
-🎓 BSc (Hons) Software Engineering
+BSc (Hons) Software Engineering
 
-💡 Interested in:
-
-* 🤖 AI Infrastructure
-* 🔄 MLOps
-* ☁️ Cloud Engineering
-* ⚙️ DevOps
-* 🐍 Python Automation
-* 🐧 Linux
+Focus Areas:
+- AI Infrastructure
+- MLOps
+- Cloud Engineering
+- DevOps
+- Python Automation
 
 ---
 
-🚀 This repository is part of my journey toward becoming an **AI Infrastructure / MLOps Engineer**.
+## License
+
+This project is licensed under the MIT License.
